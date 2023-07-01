@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Categories</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <script>
+    function categories()
+    {
+        data="https://fakestoreapi.com/products/categories"
+        fetch(data)
+        .then(function(response)
+        {
+            return response.json();
+        }).then(function(products)
+        {
+            products.unshift("all");
+            for(var items of products)
+            {
+                var option=document.createElement("option");
+                // option.innerHTML=items.categories;
+                option.text = items;
+                option.text = items.toUpperCase();
+                // console.log("option: ",option)
+
+                document.getElementById("select").appendChild(option);
+
+
+            }
+        })
+    }
+
+  function Showcards(url)
+    {
+        
+        fetch(url)
+        .then(function(response)
+        {
+            return response.json();
+        }).then(function(products)
+        {
+            for( var items of products)
+            {   
+                
+                var col=document.createElement("col");
+                col.className="col-lg-4 ";
+                
+                col.innerHTML=`
+                <div class="card text-center mt-5 shadow bg-white rounded" style="height:520px;width:250px;">
+                    <img style="width:100;height:250px" class="card-img-top" src="${items.image}" alt=" ">
+
+                    <h4>${items.title}</h4>
+                    <h4>${items.price}</h4>
+                    <div style="position:absolute;bottom:10px;margin-left:40px">
+                        <button type="button" class="btn btn-primary">Buy</button>
+                        <button type="button" class="btn btn-warning" onclick="addToCart(${items.id})" >Add to cart</button>
+                    
+                    </div>
+                </div>    
+                `
+                
+                document.getElementById("row").appendChild(col);
+
+                
+            
+            
+            }
+            
+        })
+    }
+    
+
+   function CategoryChange()
+    {   
+       document.getElementById("row").innerHTML=" ";
+       var item=document.getElementById("select").value;
+       item= item.toLowerCase();
+       
+       if(item=="all")
+       { 
+        Showcards("https://fakestoreapi.com/products");
+       }
+       else
+       {  
+        Showcards(`https://fakestoreapi.com/products/category/${item}`);
+        
+
+       }
+        
+
+    }
+
+    var MyArray=[];
+    //console.log("MyArray: ",MyArray);
+    
+    function addToCart(id)
+    {  
+       document.getElementById("tbody").innerHTML=" ";
+       
+
+        data=`https://fakestoreapi.com/products/${id}`;
+        fetch(data)
+        .then(function(response){
+            return response.json();
+        }).then(function(product)
+        {   
+            alert(`${product.title} is adding to the cart.`);
+            MyArray.push(product);
+           // console.log("MyArray: ",MyArray);
+            itemsCount();
+            
+            
+            for(var items of MyArray){
+           
+            var tr=document.createElement("tr");
+            var ttitle=document.createElement("td");
+            var tprice=document.createElement("td");
+            var timage=document.createElement("td");
+            var tbutton=document.createElement("button");
+            tbutton.className="btn btn-primary text-center mt-2 ml-1";
+            tbutton.innerHTML="Delete";
+           
+            
+            var image=document.createElement("img");
+            image.width="100";
+            image.height="100";
+            image.src=items.image;
+
+            timage.appendChild(image);
+            ttitle.innerHTML=items.title;
+            tprice.innerHTML=items.price;
+           // console.log("tprice: ",items.price);
+
+            tr.appendChild(ttitle);
+            tr.appendChild(timage);
+            tr.appendChild(tprice);
+            tr.appendChild(tbutton);
+           
+
+            document.getElementById("tbody").appendChild(tr);
+           
+            tbutton.onclick=function(){
+                
+                tr.remove();
+
+            }
+            
+            }
+            
+             
+           
+            
+        })
+        
+        
+        
+    }
+    
+    
+
+
+    function itemsCount(){
+        document.getElementById("count").innerHTML = MyArray.length;
+    }
+   
+    function bodyload(){
+        categories();
+        Showcards("https://fakestoreapi.com/products");
+        // CategoryChange();
+        //addToCart();
+        itemsCount();
+
+    }
+    
+   </script>
+</head>
+<body onload="bodyload()">
+    <div class="container-fluid ">
+        <header style="background-color:cornflowerblue;height: 50px;">
+
+           <!---- <h2 style="text-align: center;">FakeApi Store</h2>-->
+           
+            
+            <h2 style="text-align: center;color: aliceblue;">FakeApi Store</h2>
+            
+        </header>
+        <div class="row"  style="margin-top: 20px;">
+            <div class="col-lg-2">
+                <label for="form-label">Select categories</label>
+                <div>
+                    <select onchange="CategoryChange()" name="form-select" id="select">               
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-9" id="destination" >
+                <div class="row" id="row">
+
+                </div>
+
+            </div>
+            <div class="col-lg-1">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    <i class="bi bi-cart"></i>[<span id="count"></span>]
+
+                </button>
+                
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Add to cart</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <table class="table" border="1" width="100">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Image</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Book Now</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+
+           
+
+        </div>
+
+       
+    </div>
+    
+</body>
+</html>
