@@ -1,6 +1,7 @@
 # E-Commerce Web
 
-This is an e-commerce website project built using HTML, CSS, and JavaScript. It provides a platform for users to browse products, view categories, and add items to the cart.
+This is an e-commerce website project built using HTML, CSS, and JavaScript. It provides a platform
+for users to browse products, view categories, and add items to the cart.
 
 Table of Contents:
 1)Features
