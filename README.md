@@ -3,25 +3,25 @@
 This is an e-commerce website project built using HTML, CSS, and JavaScript. It provides a platform for users to browse products, view categories, and add items to the cart.
 
 Table of Contents:
-Features
-Installation
-Usage
-Technologies
-Contributing
-License
+1)Features
+2)Installation
+3)Usage
+4)Technologies
+5)Contributing
+6)License
 
 Features:
-Fetch and display categories of products
-Display products based on selected categories
-Add items to the cart
-View and manage items in the cart
+1)Fetch and display categories of products
+2)Display products based on selected categories
+3)Add items to the cart
+4)View and manage items in the cart
 
 Installation:
 To install and run the project locally, follow these steps:
 
-Clone the repository: git clone https://github.com/pratik-nagdeve/e-commerce-website.git
-Navigate to the project directory: cd e-commerce-website
-Open the index.html file in your preferred web browser.
+1)Clone the repository: git clone https://github.com/PratikNagdeve/E-Commerce.git
+2)Navigate to the project directory: cd e-commerce-website
+3)Open the index.html file in your preferred web browser.
 
 Usage:
 Open the website in your web browser.
